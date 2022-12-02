@@ -6,6 +6,9 @@ import scala.io.Source
 
 object Day1 extends App {
 
+  def part1 = parseInput.map(_.sum).max
+  def part2 = parseInput.map(_.sum).sorted.takeRight(3).sum
+
   def parseInput: Seq[List[Int]] = {
     PuzzleInputOps
       .readLines(2022, 1)
@@ -19,9 +22,6 @@ object Day1 extends App {
       .reverse
   }
 
-  def part1 = parseInput.map(_.sum).max
-  def part2 = parseInput.map(_.sum).sorted.takeRight(3).sum
-
-  println(part1) //72718
-  println(part2) //213089
+  println(part1) // 72718
+  println(part2) // 213089
 }
