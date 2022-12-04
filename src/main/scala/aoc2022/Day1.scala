@@ -1,17 +1,16 @@
 package aoc2022
 
-import util.InputOps
+import util.{AocApp, InputOps}
 
 import scala.io.Source
 
-object Day1 extends App {
+object Day1 extends AocApp {
 
   def part1 = parseInput.map(_.sum).max
   def part2 = parseInput.map(_.sum).sorted.takeRight(3).sum
 
   def parseInput: Seq[List[Int]] = {
-    InputOps
-      .readLines(2022, 1)
+    readLines()
       .foldLeft(List(List.empty[Int])) { (agg, elem) =>
         if (elem.isBlank) {
           List.empty :: agg

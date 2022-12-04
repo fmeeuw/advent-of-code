@@ -1,22 +1,22 @@
 package aoc2022
 
-import util.InputOps
+import aoc2022.Day2.readLines
+import util.{AocApp, InputOps}
 
-object Day4 extends App {
+object Day4 extends AocApp {
 
   case class Pair(a: Range, b: Range)
 
-  def part1 = parseInput.count { case Pair(a, b) =>
+  def part1 = println(parseInput.count { case Pair(a, b) =>
     fullyContainedWithin(a, b)
-  }
+  })
 
-  def part2 = parseInput.count { case Pair(a, b) =>
+  def part2 = println(parseInput.count { case Pair(a, b) =>
     overlaps(a, b)
-  }
+  })
 
   def parseInput: List[Pair] = {
-    InputOps
-      .readLines(2022, 4)
+    readLines()
       .map { line =>
         line.split(",").toList match
           case List(rangeA, rangeB) => Pair(parseRange(rangeA), parseRange(rangeB))
@@ -35,6 +35,6 @@ object Day4 extends App {
     !(a.end < b.start || a.start > b.end)
   }
 
-  println(part1)
-  println(part2)
+  part1 // 542
+  part2 // 900
 }

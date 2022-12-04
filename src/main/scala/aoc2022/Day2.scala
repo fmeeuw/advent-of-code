@@ -1,8 +1,8 @@
 package aoc2022
 
-import util.InputOps
+import util.{AocApp, InputOps}
 
-object Day2 extends App {
+object Day2 extends AocApp {
 
   enum Shape:
     case Rock, Paper, Scissors
@@ -20,39 +20,33 @@ object Day2 extends App {
   }.sum
 
   def parseInput1: List[Round1] = {
-    InputOps
-      .readLines(2022, 2)
-      .collect {
-        case line if !line.isBlank =>
-          val oppponentAction = line.charAt(0) match
-            case 'A' => Shape.Rock
-            case 'B' => Shape.Paper
-            case 'C' => Shape.Scissors
-          val playerAction = line.charAt(2) match
-            case 'X' => Shape.Rock
-            case 'Y' => Shape.Paper
-            case 'Z' => Shape.Scissors
-          Round1(oppponentAction, playerAction)
-      }
-      .toList
+    readLines().collect {
+      case line if !line.isBlank =>
+        val oppponentAction = line.charAt(0) match
+          case 'A' => Shape.Rock
+          case 'B' => Shape.Paper
+          case 'C' => Shape.Scissors
+        val playerAction = line.charAt(2) match
+          case 'X' => Shape.Rock
+          case 'Y' => Shape.Paper
+          case 'Z' => Shape.Scissors
+        Round1(oppponentAction, playerAction)
+    }.toList
   }
 
   def parseInput2: List[Round2] = {
-    InputOps
-      .readLines(2022, 2)
-      .collect {
-        case line if !line.isBlank =>
-          val oppponentAction = line.charAt(0) match
-            case 'A' => Shape.Rock
-            case 'B' => Shape.Paper
-            case 'C' => Shape.Scissors
-          val playerOutcome = line.charAt(2) match
-            case 'X' => Outcome.Lose
-            case 'Y' => Outcome.Draw
-            case 'Z' => Outcome.Win
-          Round2(oppponentAction, playerOutcome)
-      }
-      .toList
+    readLines().collect {
+      case line if !line.isBlank =>
+        val oppponentAction = line.charAt(0) match
+          case 'A' => Shape.Rock
+          case 'B' => Shape.Paper
+          case 'C' => Shape.Scissors
+        val playerOutcome = line.charAt(2) match
+          case 'X' => Outcome.Lose
+          case 'Y' => Outcome.Draw
+          case 'Z' => Outcome.Win
+        Round2(oppponentAction, playerOutcome)
+    }.toList
   }
 
   def determineShape(opponentShape: Shape, expectedOutcome: Outcome): Option[Shape] = {

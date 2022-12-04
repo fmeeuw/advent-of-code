@@ -1,10 +1,11 @@
 package aoc2022
 
-import util.InputOps
+import aoc2022.Day2.readLines
+import util.{AocApp, InputOps}
 
 import scala.io.Source
 
-object Day3 extends App {
+object Day3 extends AocApp {
 
   case class Rucksack(part1: String, part2: String)
 
@@ -31,12 +32,9 @@ object Day3 extends App {
   }
 
   def parseInput: List[Rucksack] = {
-    InputOps
-      .readLines(2022, 3)
-      .map { line =>
-        Rucksack(line.take(line.length / 2), line.drop(line.length / 2))
-      }
-      .toList
+    readLines().map { line =>
+      Rucksack(line.take(line.length / 2), line.drop(line.length / 2))
+    }.toList
   }
 
   println(part1) // 7848
