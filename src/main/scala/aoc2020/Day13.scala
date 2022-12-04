@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.util.{Success, Try}
 
-object Day13 extends App {
+object Day13 extends AocApp {
 
   case class Input(departureTimestamp: Long, busIds: List[Int])
 
@@ -31,7 +31,7 @@ object Day13 extends App {
 
   def parseInput: Input = {
     val List(timestampString, busIdString) =
-      InputOps.readLines(2020, 13).toList
+      readLines().toList
     val busIds = busIdString
       .split(",")
       .toList
@@ -48,7 +48,7 @@ object Day13 extends App {
   }
 
   def parseInput2: Map[Long, Int] = {
-    val List(_, busIdString) = InputOps.readLines(2020, 13).toList
+    val List(_, busIdString) = readLines().toList
     busIdString
       .split(",")
       .toList

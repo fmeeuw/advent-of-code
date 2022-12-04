@@ -1,11 +1,11 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import java.util.regex.MatchResult
 import scala.annotation.tailrec
 
-object Day19 extends App {
+object Day19 extends AocApp {
 
   case class Input(rules: Map[Int, Rule], messages: List[String])
 
@@ -98,7 +98,7 @@ object Day19 extends App {
   /** 61: 99 21 | 36 6 6: 54 116 36: "b"
     */
   def parseInput(suffix: Option[String] = None): Input = {
-    val lines = InputOps.readLines(2020, 19, suffix = suffix).toList
+    val lines = readLines(suffix = suffix).toList
     val rules = lines
       .takeWhile(_.nonEmpty)
       .map { line =>

@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day7 extends App {
+object Day7 extends AocApp {
 
   case class Contains(color: String, amount: Int)
   case class Rule(color: String, containsBags: Vector[Contains])
@@ -18,7 +18,7 @@ object Day7 extends App {
   }
 
   def parseInput: Iterator[String] =
-    InputOps.readLines(2020, 7)
+    readLines()
 
   // clear tan bags contain 5 bright purple bags, 1 pale black bag, 5 muted lime bags.
   // vibrant orange bags contain 5 muted plum bags.

@@ -1,11 +1,11 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.io.Source
 import scala.util.Try
 
-object Day4 extends App {
+object Day4 extends AocApp {
 
   def part1 = {
     val requiredKeys = Set("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
@@ -24,7 +24,7 @@ object Day4 extends App {
   }
 
   def parseInput: Vector[Vector[(String, String)]] = {
-    val lines = InputOps.readLines(2020, 4).toVector
+    val lines = readLines().toVector
 
     val passportLines =
       lines.foldLeft(Vector("")) { (agg, line) =>

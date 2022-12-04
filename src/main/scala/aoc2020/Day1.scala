@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.io.Source
 
-object Day1 extends App {
+object Day1 extends AocApp {
 
   def part1 = {
     val numbers = parseInput()
@@ -29,7 +29,7 @@ object Day1 extends App {
   }
 
   def parseInput(): Vector[Int] = {
-    InputOps.readLines(2020, 1).map(_.toInt).toVector
+    readLines().map(_.toInt).toVector
   }
 
   part1 // 494475

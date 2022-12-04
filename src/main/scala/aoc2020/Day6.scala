@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.io.Source
 
-object Day6 extends App {
+object Day6 extends AocApp {
 
   def part1 = {
     val groups = parseInput
@@ -29,8 +29,7 @@ object Day6 extends App {
   }
 
   def parseInput: Vector[Vector[String]] = {
-    InputOps
-      .readLines(2020, 6)
+    readLines()
       .foldLeft(Vector(Vector.empty[String])) { (agg, line) =>
         if (line.isEmpty) Vector.empty +: agg
         else (agg.head :+ line) +: agg.tail

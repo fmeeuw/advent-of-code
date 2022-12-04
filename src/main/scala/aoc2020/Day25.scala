@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.annotation.tailrec
 
-object Day25 extends App {
+object Day25 extends AocApp {
 
   def part1 = {
     val (cardPublicKey, doorPublicKey) = parseInput
@@ -20,7 +20,7 @@ object Day25 extends App {
   }
 
   def parseInput: (Long, Long) = {
-    val List(cardPublicKey, doorPublicKey) = InputOps.readLines(2020, 25).toList.map(_.toLong)
+    val List(cardPublicKey, doorPublicKey) = readLines().toList.map(_.toLong)
     cardPublicKey -> doorPublicKey
   }
 

@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.annotation.tailrec
 
-object Day20 extends App {
+object Day20 extends AocApp {
 
   /** Tile 1409: ##..#.#.#. ##........ #.#...##.# #..#..#... .......##. ##......## .......... .........# .#..##....
     * #.##...##.
@@ -152,7 +152,7 @@ object Day20 extends App {
   }
 
   def parseInput = {
-    val lines = InputOps.readLines(2020, 20)
+    val lines = readLines()
 
     def parseNextImage: Option[Image] = {
       val imageLines = lines.takeWhile(_.nonEmpty).toList

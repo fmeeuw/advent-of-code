@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.io.Source
 
-object Day2 extends App {
+object Day2 extends AocApp {
 
   case class Policy(character: Char, range: Range)
   case class Input(policy: Policy, password: String)
@@ -33,12 +33,9 @@ object Day2 extends App {
   }
 
   def parseInput: Vector[Input] = {
-    InputOps
-      .readLines(2020, 2)
-      .map {
-        parseInput
-      }
-      .toVector
+    readLines().map {
+      parseInput
+    }.toVector
   }
 
   def parseInput(line: String): Input = {

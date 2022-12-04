@@ -1,11 +1,10 @@
 package aoc2020
 
-import aoc2020.Day2.{Input, parseInput}
-import util.InputOps
+import util.AocApp
 
 import scala.io.Source
 
-object Day3 extends App {
+object Day3 extends AocApp {
 
   case class World(base: Vector[Vector[Boolean]]) {
     def isOpen(x: Int, y: Int) = {
@@ -34,8 +33,7 @@ object Day3 extends App {
   }
 
   def parseInput: Vector[Vector[Boolean]] = {
-    InputOps
-      .readLines(2020, 3)
+    readLines()
       .map(_.map(_ == '.').toVector)
       .toVector
   }

@@ -1,7 +1,7 @@
 package aoc2022
 
 import aoc2022.Day2.readLines
-import util.{AocApp, InputOps}
+import util.AocApp
 
 object Day4 extends AocApp {
 

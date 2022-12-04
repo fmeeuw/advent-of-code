@@ -1,10 +1,10 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.annotation.tailrec
 
-object Day10 extends App {
+object Day10 extends AocApp {
 
   def part1 = {
     val input = parseInput.sorted
@@ -33,7 +33,7 @@ object Day10 extends App {
   }
 
   def parseInput: Vector[Int] =
-    InputOps.readLines(2020, 10).map(_.toInt).toVector
+    readLines().map(_.toInt).toVector
 
   def combinations(cache: Map[Int, Long], lastToMatch: Int)(
       jolts: List[Int]

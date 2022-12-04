@@ -1,11 +1,11 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
 import scala.collection.BitSet
 import scala.io.Source
 
-object Day5 extends App {
+object Day5 extends AocApp {
 
   case class Ticket(rowNr: Int, colNr: Int) {
     lazy val seatId: Int = rowNr * 8 + colNr
@@ -36,7 +36,7 @@ object Day5 extends App {
   }
 
   def parseInput: Vector[Ticket] = {
-    val lines = InputOps.readLines(2020, 5).toVector
+    val lines = readLines().toVector
     lines.map { line =>
       parseTicket(line.take(7), line.slice(7, 10))
     }

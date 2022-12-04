@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day9 extends App {
+object Day9 extends AocApp {
 
   def part1 = {
     val input = parseInput
@@ -34,7 +34,7 @@ object Day9 extends App {
   }
 
   def parseInput: Vector[Long] =
-    InputOps.readLines(2020, 9).map(_.toLong).toVector
+    readLines().map(_.toLong).toVector
 
   def isValidNumber(preamble: Vector[Long], number: Long): Boolean = {
     preamble.combinations(2).exists(_.sum == number)

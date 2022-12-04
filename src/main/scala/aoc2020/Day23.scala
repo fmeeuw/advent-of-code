@@ -1,8 +1,10 @@
 package aoc2020
 
+import util.AocApp
+
 import scala.reflect.ClassTag
 
-object Day23 extends App {
+object Day23 extends AocApp {
 
   class ListNode[A](
       var value: A,

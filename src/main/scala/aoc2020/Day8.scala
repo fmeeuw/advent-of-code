@@ -1,9 +1,9 @@
 package aoc2020
 
 import aoc2020.Day8.Operation.{Accumulate, Jump, NoOperation}
-import util.InputOps
+import util.AocApp
 
-object Day8 extends App {
+object Day8 extends AocApp {
 
   sealed trait Operation
   object Operation {
@@ -114,7 +114,7 @@ object Day8 extends App {
   }
 
   def parseInput: Vector[Operation] =
-    InputOps.readLines(2020, 8).map(Operation.parse).toVector
+    readLines().map(Operation.parse).toVector
 
   part1 // 1521
   part2 // 1016

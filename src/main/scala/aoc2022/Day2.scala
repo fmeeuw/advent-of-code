@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.{AocApp, InputOps}
+import util.AocApp
 
 object Day2 extends AocApp {
 

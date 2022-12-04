@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day14 extends App {
+object Day14 extends AocApp {
   def parseInput: Iterator[String] =
-    InputOps.readLines(2020, 14)
+    readLines()
 }

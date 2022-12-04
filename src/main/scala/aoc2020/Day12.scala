@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day12 extends App {
+object Day12 extends AocApp {
 
   case class Action(action: Char, amount: Int)
   case class Point(x: Int, y: Int)
@@ -39,13 +39,10 @@ object Day12 extends App {
   }
 
   def parseInput: Vector[Action] =
-    InputOps
-      .readLines(2020, 12)
-      .map { line =>
-        val (action, amount) = line.splitAt(1)
-        Action(action.charAt(0), amount.toInt)
-      }
-      .toVector
+    readLines().map { line =>
+      val (action, amount) = line.splitAt(1)
+      Action(action.charAt(0), amount.toInt)
+    }.toVector
 
   def manhattanDistance(a: Point, b: Point): Int = {
     Math.abs(a.x - b.x) + Math.abs(a.y - b.y)

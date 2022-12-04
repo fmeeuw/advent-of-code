@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day24 extends App {
+object Day24 extends AocApp {
 
   sealed trait Direction
   object Direction {
@@ -79,7 +79,7 @@ object Day24 extends App {
   }
 
   def parseInput: Seq[List[Direction]] = {
-    InputOps.readLines(2020, 24).map(Direction.parseMultiple).toVector
+    readLines().map(Direction.parseMultiple).toVector
   }
 
   def travelDirections(from: HexPoint, directions: List[Direction]): HexPoint = {

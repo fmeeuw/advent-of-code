@@ -1,8 +1,8 @@
 package aoc2020
 
-import util.InputOps
+import util.AocApp
 
-object Day11 extends App {
+object Day11 extends AocApp {
 
   case class Point(x: Int, y: Int) {
     def +(other: Point): Point = {
@@ -93,15 +93,12 @@ object Day11 extends App {
   }
 
   def parseInput: Vector[Vector[Cell]] =
-    InputOps
-      .readLines(2020, 11)
-      .map { line =>
-        line.map {
-          case '.' => Cell(false, false)
-          case 'L' => Cell(true, false)
-        }.toVector
-      }
-      .toVector
+    readLines().map { line =>
+      line.map {
+        case '.' => Cell(false, false)
+        case 'L' => Cell(true, false)
+      }.toVector
+    }.toVector
 
   def doRoundsUntilNoChanges(
       round: Int,
