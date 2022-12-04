@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.PuzzleInputOps
+import util.InputOps
 
 import scala.io.Source
 
@@ -31,7 +31,7 @@ object Day3 extends App {
   }
 
   def parseInput: List[Rucksack] = {
-    PuzzleInputOps
+    InputOps
       .readLines(2022, 3)
       .map { line =>
         Rucksack(line.take(line.length / 2), line.drop(line.length / 2))

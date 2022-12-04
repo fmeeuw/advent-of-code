@@ -5,7 +5,7 @@ import java.nio.file.{Files, Paths}
 import scala.io.{BufferedSource, Source}
 import scala.util.{Try, Using}
 
-object PuzzleInputOps {
+object InputOps {
 
   def readString(year: Int, day: Int, suffix: Option[String] = None): String =
     source(year, day, suffix).mkString

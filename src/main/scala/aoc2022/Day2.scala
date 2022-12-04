@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.PuzzleInputOps
+import util.InputOps
 
 object Day2 extends App {
 
@@ -20,7 +20,7 @@ object Day2 extends App {
   }.sum
 
   def parseInput1: List[Round1] = {
-    PuzzleInputOps
+    InputOps
       .readLines(2022, 2)
       .collect {
         case line if !line.isBlank =>
@@ -38,7 +38,7 @@ object Day2 extends App {
   }
 
   def parseInput2: List[Round2] = {
-    PuzzleInputOps
+    InputOps
       .readLines(2022, 2)
       .collect {
         case line if !line.isBlank =>

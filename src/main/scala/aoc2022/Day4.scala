@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.PuzzleInputOps
+import util.InputOps
 
 object Day4 extends App {
 
@@ -15,7 +15,7 @@ object Day4 extends App {
   }
 
   def parseInput: List[Pair] = {
-    PuzzleInputOps
+    InputOps
       .readLines(2022, 4)
       .map { line =>
         line.split(",").toList match

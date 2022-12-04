@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.PuzzleInputOps
+import util.InputOps
 
 import scala.io.Source
 
@@ -10,7 +10,7 @@ object Day1 extends App {
   def part2 = parseInput.map(_.sum).sorted.takeRight(3).sum
 
   def parseInput: Seq[List[Int]] = {
-    PuzzleInputOps
+    InputOps
       .readLines(2022, 1)
       .foldLeft(List(List.empty[Int])) { (agg, elem) =>
         if (elem.isBlank) {
