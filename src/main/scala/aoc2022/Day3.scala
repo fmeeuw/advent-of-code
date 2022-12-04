@@ -22,7 +22,7 @@ object Day3 extends App {
     }
     .sum
 
-  private def priority(char: Char) = {
+  def priority(char: Char) = {
     if (char.isUpper) {
       char.toInt - 38
     } else {
