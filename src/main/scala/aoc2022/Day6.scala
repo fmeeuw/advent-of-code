@@ -7,22 +7,20 @@ object Day6 extends AocApp {
   def part1 = {
     val input: String = readLines().toList.head
 //    val input = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-    val result =
-      input.sliding(4).zipWithIndex.collectFirst { case (group, idx) if group.toSet.size == 4 => idx + 4 }
-    println(result)
+    println(indexOffirstUniqueSequence(input, 4).get)
   }
 
   def part2 = {
     val input: String = readLines().toList.head
 //    val input = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-    val result =
-      input.sliding(14).zipWithIndex.collectFirst {
-        case (group, idx) if group.toSet.size == 14 => idx + 14
-      }
-    println(result)
+    println(indexOffirstUniqueSequence(input, 14).get)
   }
 
-  part1
-  part2
+  private def indexOffirstUniqueSequence(input: String, n: Int) = input.sliding(n).zipWithIndex.collectFirst {
+    case (group, idx) if group.toSet.size == n => idx + n
+  }
+
+  part1 // 1802
+  part2 // 3551
 
 }

@@ -8,47 +8,47 @@ import scala.collection.immutable.Queue
 object Day5 extends AocApp {
 
   case class Input(stacks: Stacks, moves: List[Move])
-  case class Stacks(stacks: Map[Int, Queue[Char]]) // TODO move out of case class and to Array[List or something
+  case class Stacks(stacks: Vector[List[Char]])
   case class Move(amount: Int, from: Int, to: Int)
 
   def part1: Unit = {
     val input = parseInput
     val endState = input.moves.foldLeft(input.stacks) { (stacks, move) =>
       val nextState = doMove(stacks, move)
-      println(s"Performing move ${move}")
-      println("*" * 30)
-      printStacks(nextState)
-      println("*" * 30)
+//      println(s"Performing move ${move}")
+//      println("*" * 30)
+//      printStacks(nextState)
+//      println("*" * 30)
       nextState
     }
-    println(endState.stacks.keys.toList.sorted.map(s => endState.stacks(s).head).mkString)
+    println(endState.stacks.map(stack => stack.head).mkString)
   }
   def part2: Unit = {
     val input = parseInput
     val endState = input.moves.foldLeft(input.stacks) { (stacks, move) =>
       val nextState = doMove2(stacks, move)
-      println(s"Performing move ${move}")
-      println("*" * 30)
-      printStacks(nextState)
-      println("*" * 30)
+//      println(s"Performing move ${move}")
+//      println("*" * 30)
+//      printStacks(nextState)
+//      println("*" * 30)
       nextState
     }
-    println(endState.stacks.keys.toList.sorted.map(s => endState.stacks(s).head).mkString)
+    println(endState.stacks.map(stack => stack.head).mkString)
   }
 
   def doMove(stacks: Stacks, move: Move) = {
     stacks.copy(stacks =
       stacks.stacks
-        .updated(move.from, stacks.stacks(move.from).drop(move.amount))
-        .updated(move.to, stacks.stacks(move.from).take(move.amount).reverse ++ stacks.stacks(move.to))
+        .updated(move.from - 1, stacks.stacks(move.from - 1).drop(move.amount))
+        .updated(move.to - 1, stacks.stacks(move.from - 1).take(move.amount).reverse ++ stacks.stacks(move.to - 1))
     )
   }
 
   def doMove2(stacks: Stacks, move: Move) = {
     stacks.copy(stacks =
       stacks.stacks
-        .updated(move.from, stacks.stacks(move.from).drop(move.amount))
-        .updated(move.to, stacks.stacks(move.from).take(move.amount) ++ stacks.stacks(move.to))
+        .updated(move.from - 1, stacks.stacks(move.from - 1).drop(move.amount))
+        .updated(move.to - 1, stacks.stacks(move.from - 1).take(move.amount) ++ stacks.stacks(move.to - 1))
     )
   }
 
@@ -67,33 +67,35 @@ object Day5 extends AocApp {
 
   def parseStacks(lines: List[String]): Stacks = {
 
-    def stackIndex(idx: Int) = (idx / 4) + 1
+    def stackIndex(idx: Int) = (idx / 4)
 
-    val result = lines.reverse.drop(1).foldLeft(Map.empty[Int, Queue[Char]]) { (stacks, line) =>
+    val max = lines.last.split("\\s+").filterNot(_.isBlank).toList.map(_.toInt).max
+    val result = lines.reverse.drop(1).foldLeft(emptyStacks(max)) { (stacks, line) =>
       line.zipWithIndex
         .foldLeft(stacks) { case (stacks, (char, index)) =>
           if (char.isLetter) {
-            stacks.updatedWith(stackIndex(index)) {
-              case None           => Some(Queue.apply[Char](char))
-              case Some(existing) => Some(existing.prepended(char))
-            }
+            val idx = stackIndex(index)
+            stacks.updated(idx, char :: stacks(idx))
           } else stacks
         }
     }
     Stacks(result)
   }
+
+  def emptyStacks(maxNumber: Int): Vector[List[Char]] = {
+    (1 to maxNumber).map(_ => List.empty[Char]).toVector
+  }
   def printStacks(stacks: Stacks): Unit = {
-    val sortedKeys = stacks.stacks.keys.toList.sorted
-    val bottomLine = sortedKeys.map(key => s" $key ").mkString(" ")
-    val maxItems = stacks.stacks.values.map(_.size).max
+    val bottomLine = stacks.stacks.indices.map(key => s" $key ").mkString(" ")
+    val maxItems = stacks.stacks.map(_.size).max
     val result: Seq[String] = for { i <- 0 until maxItems } yield {
-      sortedKeys.map(s => stacks.stacks(s).lift(i).map(char => s"[$char]").getOrElse("   ")).mkString(" ")
+      stacks.stacks.map(stack => stack.lift(i).map(char => s"[$char]").getOrElse("   ")).mkString(" ")
     }
 
     result.foreach(println)
     println(bottomLine)
   }
 
-  part1
-  part2
+  part1 // SVFDLGLWV
+  part2 // DCVTCVPCL
 }
