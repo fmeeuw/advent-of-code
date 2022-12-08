@@ -1,4 +1,4 @@
-package aoc2020
+package util
 
 case class Point(x: Int, y: Int) {
   def +(other: Point) = copy(x + other.x, y + other.y)
@@ -25,6 +25,13 @@ case class Grid[A](cells: Vector[Vector[A]]) {
 
   def width: Int = cells(0).size
 
+  def points: Seq[Point] = {
+    for {
+      y <- 0 until cells.size
+      x <- 0 until cells(y).size
+    } yield Point(x, y)
+  }
+
   def mapCells[B](f: (Point, A) => B): Grid[B] = {
     copy(cells = cells.zipWithIndex.map { case (row, y) =>
       row.zipWithIndex.map { case (cell, x) =>
@@ -37,6 +44,7 @@ case class Grid[A](cells: Vector[Vector[A]]) {
     copy(cells = cells.updated(point.y, cells(point.y).updated(point.x, value)))
   }
 
+  
   def diagonals: List[Point] = {
     List(
       Point(0, 1), // up
@@ -56,5 +64,5 @@ case class Grid[A](cells: Vector[Vector[A]]) {
       .filter(point => withinBounds(point))
       .map(point => cell(point))
   }
-
+  
 }

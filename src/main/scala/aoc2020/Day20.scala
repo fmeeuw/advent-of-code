@@ -1,6 +1,6 @@
 package aoc2020
 
-import util.AocApp
+import util.{AocApp, Grid, Point}
 
 import scala.annotation.tailrec
 
