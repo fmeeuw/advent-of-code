@@ -1,12 +1,5 @@
 package util
 
-case class Point(x: Int, y: Int) {
-  def +(other: Point) = copy(x + other.x, y + other.y)
-  def up: Point = copy(y = y + 1)
-  def right: Point = copy(x = x + 1)
-  def down: Point = copy(y = y - 1)
-  def left: Point = copy(x = x - 1)
-}
 case class Grid[A](cells: Vector[Vector[A]]) {
 
   override def toString: String =
@@ -44,7 +37,6 @@ case class Grid[A](cells: Vector[Vector[A]]) {
     copy(cells = cells.updated(point.y, cells(point.y).updated(point.x, value)))
   }
 
-  
   def diagonals: List[Point] = {
     List(
       Point(0, 1), // up
@@ -64,5 +56,5 @@ case class Grid[A](cells: Vector[Vector[A]]) {
       .filter(point => withinBounds(point))
       .map(point => cell(point))
   }
-  
+
 }
