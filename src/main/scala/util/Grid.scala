@@ -50,6 +50,16 @@ case class Grid[A](cells: Vector[Vector[A]]) {
     )
   }
 
+  def adjacent4Points(point: Point): List[Point] = {
+    List(
+      Point(0, 1), // up
+      Point(1, 0), // right
+      Point(0, -1), // down
+      Point(-1, 0) // left
+    ).map(_ + point)
+      .filter(withinBounds)
+  }
+
   def adjacents(point: Point): List[A] = {
     diagonals
       .map(_ + point)
