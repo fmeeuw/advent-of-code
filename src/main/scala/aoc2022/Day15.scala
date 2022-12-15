@@ -1,6 +1,6 @@
 package aoc2022
 
-import util.{AocApp, MathLine, Point}
+import util.{AocApp, Point}
 object Day15 extends AocApp {
 
   case class Input(sensor: Point, beacon: Point) {
