@@ -2,8 +2,13 @@ package util
 
 case class Grid[A](cells: Vector[Vector[A]]) {
 
-  override def toString: String =
-    cells.map(row => row.map(_.toString).mkString).mkString("\n")
+  override def toString: String = {
+    cells.zipWithIndex
+      .map { case (row, y) =>
+        y + "\t" + row.map(_.toString).mkString
+      }
+      .mkString("\n")
+  }
 
   def cellOpt(point: Point): Option[A] =
     if (withinBounds(point)) Some(cell(point)) else None
@@ -23,6 +28,14 @@ case class Grid[A](cells: Vector[Vector[A]]) {
       y <- 0 until cells.size
       x <- 0 until cells(y).size
     } yield Point(x, y)
+  }
+
+  def cellsWithPoints: Vector[Vector[(Point, A)]] = {
+    cells.zipWithIndex.map { case (row, y) =>
+      row.zipWithIndex.map { case (cell, x) =>
+        Point(x, y) -> cell
+      }
+    }
   }
 
   def mapCells[B](f: (Point, A) => B): Grid[B] = {
