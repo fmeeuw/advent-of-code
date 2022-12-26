@@ -1,8 +1,7 @@
 package aoc2022
 
-import util.Direction.{Down, Up}
-import util.{AocApp, Direction, Grid, Point}
-
+import util.{AocApp, Direction4, Grid, Point}
+import util.Direction4.*
 object Day22 extends AocApp {
 
   case class Input(grid: Grid[Char], instructions: List[Instruction])
@@ -11,11 +10,11 @@ object Day22 extends AocApp {
   case class MoveForward(steps: Int) extends Instruction
   case class Rotate(clockwise: Boolean) extends Instruction
 
-  case class State(pos: Point, direction: Direction, visited: List[Point])
+  case class State(pos: Point, direction: Direction4, visited: List[Point])
   def part1 = {
     val Input(grid, instructions) = parseInput()
     val startPoint = grid.cellsWithPoints.head.collectFirst { case (point, char) if char == '.' => point }.get
-    val startDirection = Direction.Right
+    val startDirection = East
 
     println(grid)
     println(s"Starting pos ${startPoint} in direction ${startDirection}")
@@ -36,17 +35,17 @@ object Day22 extends AocApp {
 
     println(s"Endstate,  pos ${endState.pos}, dir: ${endState.direction}, visited: ${endState.visited}.")
     val facingValue: Int = endState.direction match
-      case Up              => 3
-      case Direction.Right => 0
-      case Down            => 1
-      case Direction.Left  => 2
+      case North => 3
+      case East  => 0
+      case South => 1
+      case West  => 2
 
     println(
       s"password = 1000 * ${endState.pos.y + 1} + 4 * ${endState.pos.x + 1} + ${facingValue} = ${(1000 * (endState.pos.y + 1)) + (4 * (endState.pos.x + 1)) + facingValue}"
     )
   }
 
-  def move(grid: Grid[Char], point: Point, direction: Direction, steps: Int): Point = {
+  def move(grid: Grid[Char], point: Point, direction: Direction4, steps: Int): Point = {
     println(s"Moving steps ${steps} in direction ${direction} from pos ${point}.")
     if (steps == 0) point
     else {
@@ -58,8 +57,8 @@ object Day22 extends AocApp {
     }
   }
 
-  def nextFreeSpace(grid: Grid[Char], point: Point, direction: Direction): Option[Point] = {
-    val nextPos = point.move(inverseUpDown(direction), 1)
+  def nextFreeSpace(grid: Grid[Char], point: Point, direction: Direction4): Option[Point] = {
+    val nextPos = point.move4(direction.inverseNorthSouth, 1)
     println(
       s"In nextFreeSpace ${point}, direction=${direction}' , nextPos = ${nextPos}, nextCell = ${grid.cellOpt(nextPos)}"
     )
@@ -69,19 +68,11 @@ object Day22 extends AocApp {
       case Some(value) if value.isSpaceChar => nextFreeSpace(grid, nextPos, direction)
       case None =>
         val newPoint = direction match
-          case Up              => point.copy(y = grid.height)
-          case Direction.Right => point.copy(x = -1)
-          case Down            => point.copy(y = -1)
-          case Direction.Left  => point.copy(x = grid.width - 1)
+          case North => point.copy(y = grid.height)
+          case East  => point.copy(x = -1)
+          case South => point.copy(y = -1)
+          case West  => point.copy(x = grid.width - 1)
         nextFreeSpace(grid, newPoint, direction)
-  }
-
-  def inverseUpDown(direction: Direction): Direction = {
-    direction match
-      case Up              => Down
-      case Direction.Right => Direction.Right
-      case Down            => Up
-      case Direction.Left  => Direction.Left
   }
 
   def parseInput(suffix: Option[String] = None): Input = {

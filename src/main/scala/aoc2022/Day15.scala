@@ -32,7 +32,7 @@ object Day15 extends AocApp {
     val left = Point(input.sensor.x - input.distanceSensorBeacon - 1, input.sensor.y)
     val right = Point(input.sensor.x + input.distanceSensorBeacon + 1, input.sensor.y)
     (for { i <- 0 to input.distanceSensorBeacon + 1 } yield {
-      Set(left.up(i).right(i), left.down(i).right(i), right.up(i).left(i), left.down(i).left(i))
+      Set(left.north(i).east(i), left.south(i).east(i), right.north(i).west(i), left.south(i).west(i))
     }).flatten.toSet
   }
 

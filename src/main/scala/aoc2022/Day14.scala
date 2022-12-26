@@ -89,12 +89,12 @@ object Day14 extends AocApp {
 
   @tailrec
   def pourSandUntilRest(grid: Grid[Char], startPoint: Point): Point = {
-    if (grid.cellOpt(startPoint.up()).contains('.')) {
-      pourSandUntilRest(grid, startPoint.up())
-    } else if (grid.cellOpt(startPoint.up().left()).contains('.')) {
-      pourSandUntilRest(grid, startPoint.up().left())
-    } else if (grid.cellOpt(startPoint.up().right()).contains('.')) {
-      pourSandUntilRest(grid, startPoint.up().right())
+    if (grid.cellOpt(startPoint.north()).contains('.')) {
+      pourSandUntilRest(grid, startPoint.north())
+    } else if (grid.cellOpt(startPoint.north().west()).contains('.')) {
+      pourSandUntilRest(grid, startPoint.north().west())
+    } else if (grid.cellOpt(startPoint.north().east()).contains('.')) {
+      pourSandUntilRest(grid, startPoint.north().east())
     } else {
       startPoint
     }

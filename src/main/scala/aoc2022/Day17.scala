@@ -1,15 +1,15 @@
 package aoc2022
 
-import util.{AocApp, Direction, Grid, Point}
-
+import util.{AocApp, Direction4, Grid, Point}
+import util.Direction4.*
 object Day17 extends AocApp {
 
   case class Rock(points: Set[Point]) {
     def moveTo(otherPoint: Point): Rock = {
       copy(points = points.map(_ + otherPoint))
     }
-    def move(direction: Direction): Rock = {
-      copy(points = points.map(_.move(direction)))
+    def move(direction: Direction4): Rock = {
+      copy(points = points.map(_.move4(direction)))
     }
   }
 
@@ -70,7 +70,7 @@ object Day17 extends AocApp {
       round: Long,
       nrOfRounds: Long,
       rocks: List[Rock],
-      jetStream: List[Direction],
+      jetStream: List[Direction4],
       rockIndex: Int,
       jetIndex: Int,
       takenPositions: Set[Point],
@@ -167,7 +167,7 @@ object Day17 extends AocApp {
   }
 
   def fallRockRec(
-      jetStream: List[Direction],
+      jetStream: List[Direction4],
       rock: Rock,
       jetTurn: Boolean,
       jetIndex: Int,
@@ -187,7 +187,7 @@ object Day17 extends AocApp {
         fallRockRec(jetStream, rock, !jetTurn, (jetIndex + 1) % jetStream.size, takenPositions)
       }
     } else {
-      val rockMovedDown = rock.move(Direction.Down)
+      val rockMovedDown = rock.move(South)
       if (isValidRockPosition(rockMovedDown, takenPositions)) {
         fallRockRec(jetStream, rockMovedDown, !jetTurn, jetIndex, takenPositions)
       } else {
@@ -216,11 +216,11 @@ object Day17 extends AocApp {
     Point(x, y)
   }
 
-  def parseJetStreamPattern(suffix: Option[String] = None): List[Direction] = {
+  def parseJetStreamPattern(suffix: Option[String] = None): List[Direction4] = {
     readLines(suffix).toList.head.map { char =>
       char match
-        case '<' => Direction.Left
-        case '>' => Direction.Right
+        case '<' => West
+        case '>' => East
     }.toList
   }
 

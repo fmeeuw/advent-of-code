@@ -186,10 +186,10 @@ object Day20 extends AocApp {
   ): Option[ImagePlacement] = {
     val placedImageIds = board.cells.flatten.flatten.map(_.image.id).toSet
     val borderRestrictions = List(
-      board.cellOpt(pos.up()).flatten.map(_.borders(SOUTH).reverse),
-      board.cellOpt(pos.right()).flatten.map(_.borders(WEST).reverse),
-      board.cellOpt(pos.down()).flatten.map(_.borders(NORTH).reverse),
-      board.cellOpt(pos.left()).flatten.map(_.borders(EAST).reverse)
+      board.cellOpt(pos.north()).flatten.map(_.borders(SOUTH).reverse),
+      board.cellOpt(pos.east()).flatten.map(_.borders(WEST).reverse),
+      board.cellOpt(pos.south()).flatten.map(_.borders(NORTH).reverse),
+      board.cellOpt(pos.west()).flatten.map(_.borders(EAST).reverse)
     )
     //    println(s"Picking next image, border restrictions $borderRestrictions")
     //    println(s"placedImageIds = ${placedImageIds}")
@@ -212,7 +212,7 @@ object Day20 extends AocApp {
       board: Grid[Option[ImagePlacement]],
       pos: Point
   ): Option[Point] = {
-    val goRight = pos.right()
+    val goRight = pos.east()
     if (board.withinBounds(goRight)) {
       Some(goRight)
     } else {
@@ -225,7 +225,7 @@ object Day20 extends AocApp {
       board: Grid[Option[ImagePlacement]],
       pos: Point
   ): Option[Point] = {
-    val goLeft = pos.left()
+    val goLeft = pos.west()
     if (board.withinBounds(goLeft)) {
       Some(goLeft)
     } else {
