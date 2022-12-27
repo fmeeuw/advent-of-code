@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day11 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Monkey(items: Vector[Long], operation: Long => Long, test: BigInt => Int, totalInspections: Long)
 
   val testMonkeys: List[Monkey] = List(
@@ -29,26 +31,26 @@ object Day11 extends AocApp {
   def part1 = {
     val endState = play(actualMonkeys, 20, level => level / 3)
     val monkeyBusiness = calculateMonkeyBusiness(endState)
-    println(monkeyBusiness)
+    info(monkeyBusiness)
   }
 
   def part2 = {
     val endState = play(actualMonkeys, 10000, level => level % actualLeastCommonMultiple)
     val monkeyBusiness = calculateMonkeyBusiness(endState)
-    println(monkeyBusiness)
+    info(monkeyBusiness)
   }
 
   def calculateMonkeyBusiness(monkeys: List[Monkey]): Long = monkeys.map(_.totalInspections).sorted.takeRight(2).product
 
   def play(monkeys: List[Monkey], rounds: Int, adjustWorryLevel: Long => Long) = {
-//    println("Starting with")
-//    printMonkeys(monkeys)
+    debug("Starting with")
+    printMonkeys(monkeys)
     (1 to rounds).foldLeft(monkeys) { (agg, roundNr) =>
       val result = doRound(agg, adjustWorryLevel)
-//      if (roundNr % 1000 == 0 || roundNr == 20 || roundNr == 1) {
-//        println(s"After round $roundNr the following items are holded per monkey:")
-//        printMonkeys(result)
-//      }
+      if (roundNr % 1000 == 0 || roundNr == 20 || roundNr == 1) {
+        debug(s"After round $roundNr the following items are holded per monkey:")
+        printMonkeys(result)
+      }
       result
     }
   }
@@ -63,11 +65,11 @@ object Day11 extends AocApp {
     monkey.items.headOption match
       case None => monkeys
       case Some(item) => {
-//        println(s"\ttMonkey $currentMonkeyIdx inspects an item with a worry level of $item.")
+        debug(s"\ttMonkey $currentMonkeyIdx inspects an item with a worry level of $item.")
         val updatedWorryLevel = adjustWorryLevel(monkey.operation(item))
-//        println(s"\t\tUpdated worry level: $updatedWorryLevel.")
+        debug(s"\t\tUpdated worry level: $updatedWorryLevel.")
         val throwToMonkey = monkey.test(updatedWorryLevel)
-//        println(s"\t\tItem with worry level ${updatedWorryLevel} is thrown to monkey ${throwToMonkey}.")
+        debug(s"\t\tItem with worry level ${updatedWorryLevel} is thrown to monkey ${throwToMonkey}.")
 
         val updatedMonkeys = monkeys
           .updated(
@@ -88,11 +90,11 @@ object Day11 extends AocApp {
   }
 
   def printMonkeys(monkeys: List[Monkey]): Unit = {
-    println(s"**************** MONKEYS *********************")
+    debug(s"**************** MONKEYS *********************")
     monkeys.zipWithIndex.foreach { case (monkey, idx) =>
-      println(s"Monkey $idx: ${monkey.items.mkString(",")}, totalInspections: ${monkey.totalInspections}")
+      debug(s"Monkey $idx: ${monkey.items.mkString(",")}, totalInspections: ${monkey.totalInspections}")
     }
-    println(s"***********************************************")
+    debug(s"***********************************************")
 
   }
 

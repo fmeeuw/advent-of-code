@@ -6,6 +6,7 @@ import scala.annotation.tailrec
 
 object Day25 extends AocApp {
 
+  override val logOnDebug: Boolean = false
   def part1 = {
     val (cardPublicKey, doorPublicKey) = parseInput
 //    val (cardPublicKey, doorPublicKey) = "5764801".toLong -> "17807724".toLong

@@ -5,6 +5,8 @@ import util.AocApp
 
 object Day8 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   sealed trait Operation
   object Operation {
     def parse(value: String): Operation = {

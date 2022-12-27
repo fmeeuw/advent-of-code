@@ -6,6 +6,8 @@ import scala.io.Source
 
 object Day2 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Policy(character: Char, range: Range)
   case class Input(policy: Policy, password: String)
 

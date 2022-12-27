@@ -7,13 +7,15 @@ import scala.annotation.tailrec
 
 object Day9 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Move(direction: Direction4)
 
   case class Positions(head: Point, tail: Point)
 
   def part1 = {
     val moves: List[Move] = parseMoves
-    println(moves)
+    debug(moves)
 
     val startPosition = Point(0, 0)
 
@@ -25,13 +27,13 @@ object Day9 extends AocApp {
 
     val tailPositions = simulate(startPosition, headNextPositions)
 
-    println(tailPositions)
-    println(tailPositions.distinct.size)
+    debug(tailPositions)
+    info(tailPositions.distinct.size)
   }
 
   def part2 = {
     val moves: List[Move] = parseMoves
-    println(moves)
+    debug(moves)
 
     val startPosition = Point(0, 0)
     val headNextPositions = moves
@@ -42,8 +44,8 @@ object Day9 extends AocApp {
 
     val tail9Positions = simulate9(startPosition, headNextPositions, 1)
 
-    println(tail9Positions)
-    println(tail9Positions.distinct.size)
+    debug(tail9Positions)
+    info(tail9Positions.distinct.size)
   }
 
   private def parseMoves: List[Move] = readLines().flatMap { line =>
@@ -59,11 +61,11 @@ object Day9 extends AocApp {
   @tailrec
   private def simulate9(start: Point, headNextPositions: List[Point], currentTail: Int): List[Point] = {
     if (currentTail == 10) {
-      println("Stopping currentTail=9")
+      debug("Stopping currentTail=9")
       headNextPositions: List[Point]
     } else {
       val tailPositions = simulate(start, headNextPositions)
-      println(s"TailPositions for n=$currentTail: $tailPositions")
+      debug(s"TailPositions for n=$currentTail: $tailPositions")
       simulate9(start, tailPositions, currentTail + 1)
     }
   }

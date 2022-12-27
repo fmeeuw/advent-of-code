@@ -3,18 +3,19 @@ package aoc2022
 import util.{AocApp, Point}
 object Day15 extends AocApp {
 
+  override val logOnDebug: Boolean = false
   case class Input(sensor: Point, beacon: Point) {
     lazy val distanceSensorBeacon = manhattanDistance(sensor, beacon)
   }
 
   def part1 = {
     val input = parseInput()
-//    println(input.mkString("\n"))
+    debug(input.mkString("\n"))
     val filterForY = 2000000
     val allConfirmedNoBeaconsForY: Set[Point] = input.flatMap(input => confirmedNoBeacons(input, filterForY)).toSet
     val allConfirmedBeacons: Set[Point] = input.map(_.beacon).toSet
     val result = allConfirmedNoBeaconsForY.size - allConfirmedBeacons.count(_.y == filterForY)
-    println(result)
+    info(result)
   }
 
   def part2 = {
@@ -25,7 +26,7 @@ object Day15 extends AocApp {
       .filter(edge => input.forall(input => outSideRange(edge, input)))
       .filter(point => point.x >= 0 && point.x <= maxSearchY && point.y >= 0 && point.y <= maxSearchY)
 
-    println(tuningFrequency(onlyFreePoints.head))
+    info(tuningFrequency(onlyFreePoints.head))
   }
 
   def calcEdges(input: Input): Set[Point] = {
@@ -46,13 +47,13 @@ object Day15 extends AocApp {
 
   def confirmedNoBeacons(input: Input, filterForY: Int): Set[Point] = {
     val distance = manhattanDistance(input.beacon, input.sensor)
-//    println(s"Detecting no beacon area for input $input with manhattan distance $distance filtered for y=${filterForY}")
+    debug(s"Detecting no beacon area for input $input with manhattan distance $distance filtered for y=${filterForY}")
     val result = (for {
       x <- input.sensor.x - distance to input.sensor.x + distance
       y = filterForY // input.sensor.y - distance to input.sensor.y + distance
       if manhattanDistance(input.sensor, Point(x, y)) <= distance
     } yield Point(x, y)).toSet
-//    println(result.mkString(","))
+    debug(result.mkString(","))
     result
   }
 

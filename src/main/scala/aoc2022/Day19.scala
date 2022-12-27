@@ -6,6 +6,8 @@ import scala.util.matching.Regex
 
 object Day19 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Blueprint(
       id: Int,
       oreRobotCost: Materials,
@@ -88,39 +90,30 @@ object Day19 extends AocApp {
   case class BuildRobotAction(material: Option[Material])
   def part1 = {
     val bluePrints = parseBlueprints()
-    println(bluePrints)
+    debug(bluePrints)
 
-    // find largest number of geodes that can be opened in 24 minutes.
-//    val geodesList =
-//      bluePrints.map { bluePrint =>
-//        val geodes = doTurnRec(24, bluePrint, State(Materials.Empty, Materials.Empty.add(Material.Ore, 1)))
-//        println(s"Calculated geodes for blueprint with id ${bluePrint.id} = $geodes")
-//        bluePrint.id -> geodes
-//      }
-//    println(geodesList)
-
-    val geodesList2 =
+    val geodesList =
       bluePrints.map { bluePrint =>
         val geodes = doTurnRec2(
           List(Candidate(24, bluePrint, State(Materials.Empty, Materials.Empty.add(Material.Ore, 1)))),
           Map.empty
         )
-        println(s"Calculated geodes for blueprint with id ${bluePrint.id} = $geodes")
+        debug(s"Calculated geodes for blueprint with id ${bluePrint.id} = $geodes")
         bluePrint.id -> geodes
       }
-    println(geodesList2)
-    println(geodesList2.map { case (id, geodes) => id * geodes }.sum)
+    debug(geodesList)
+    info(geodesList.map { case (id, geodes) => id * geodes }.sum)
   }
 
   def part2 = {
     val bluePrints = parseBlueprints().take(3)
-    println(bluePrints)
+    debug(bluePrints)
 
-//    println(bluePrints.map { bluePrint =>
-//      val geodes = doTurnRec(32, bluePrint, State(Materials.Empty, Materials.Empty.add(Material.Ore, 1)))
-//      println(s"Calculated geodes 29 for blueprint with id ${bluePrint.id} = $geodes")
-//      bluePrint.id -> geodes
-//    })
+    debug(bluePrints.map { bluePrint =>
+      val geodes = doTurnRec(32, bluePrint, State(Materials.Empty, Materials.Empty.add(Material.Ore, 1)))
+      debug(s"Calculated geodes 29 for blueprint with id ${bluePrint.id} = $geodes")
+      bluePrint.id -> geodes
+    })
 
     val geodesList2 =
       bluePrints.map { bluePrint =>
@@ -128,10 +121,10 @@ object Day19 extends AocApp {
           List(Candidate(32, bluePrint, State(Materials.Empty, Materials.Empty.add(Material.Ore, 1)))),
           Map.empty
         )
-        println(s"Calculated geodes for blueprint with id ${bluePrint.id} = $geodes")
+        debug(s"Calculated geodes for blueprint with id ${bluePrint.id} = $geodes")
         geodes
       }
-    println(geodesList2.product)
+    info(geodesList2.product)
     // 32683 too low.
     // 37191
     /** round 28 round 29 1 12,3 2 7,2 3 22,6

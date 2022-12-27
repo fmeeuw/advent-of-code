@@ -4,20 +4,22 @@ import util.{AocApp, Grid, Point}
 
 object Day8 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val trees = readLines().map(_.map(char => Integer.parseInt(char.toString)).toVector).toVector
     val grid = Grid(trees)
     val visibleTrees = grid.points.filter { point =>
       treesUntilEdge(grid, point).exists(_.forall(otherTree => grid.cell(otherTree) < grid.cell(point)))
     }
-    println(visibleTrees.size)
+    info(visibleTrees.size)
   }
 
   def part2 = {
     val trees = readLines().map(_.map(char => Integer.parseInt(char.toString)).toVector).toVector
     val grid = Grid(trees)
     val scenicScores = grid.points.map(point => scenicScore(grid, point))
-    println(scenicScores.max)
+    info(scenicScores.max)
   }
 
   def scenicScore(grid: Grid[Int], point: Point): Int = {

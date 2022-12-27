@@ -3,6 +3,8 @@ package aoc2022
 import util.AocApp
 object Day21 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   /** root: pppw + sjmn dbpl: 5 cczh: sllz + lgvd zczc: 2 ptdq: humn - dvpt dvpt: 3 lfqf: 4 humn: 5 ljgn: 2 sjmn: drzm *
     * dbpl sllz: 4 pppw: cczh / lfqf lgvd: ljgn * ptdq drzm: hmdt - zczc hmdt: 32
     */
@@ -18,29 +20,29 @@ object Day21 extends AocApp {
 
   def part1 = {
     val monkeyYells: List[Input] = parseInput()
-    println(monkeyYells.mkString("\n"))
+    debug(monkeyYells.mkString("\n"))
 
     val yellDefinitionsMap: Map[String, Yell] = monkeyYells.map(yell => yell.monkey -> yell.yell).toMap
     val (result, map) = substituteRec("root", yellDefinitionsMap, Map.empty)
-    println(map)
-    println(result)
+    debug(map)
+    info(result)
   }
 
   def part2 = {
     val monkeyYells: List[Input] = parseInput()
-    println(monkeyYells.mkString("\n"))
+    debug(monkeyYells.mkString("\n"))
 
     val remainingMonkeyYells = monkeyYells.filter(input => input.monkey != "humn" && input.monkey != "root")
     val remainingYellDefinitionsMap: Map[String, Yell] =
       remainingMonkeyYells.map(yell => yell.monkey -> yell.yell).toMap
     val result1 = binarySearch(remainingYellDefinitionsMap, 0, Long.MaxValue)
-    println(result1)
+    info(result1)
   }
 
   def binarySearch(monkeyYells: Map[String, Yell], lowest: Long, highest: Long): Long = {
     val center = lowest + (highest - lowest) / 2
     val (result1, result2) = myYellProduces(center, monkeyYells)
-    println(
+    debug(
       s"In i=$center , result1=$result1, result2=$result2 , equal =${result1 == result2}, diff = ${result1 - result2}, lowerBound=${lowest}, higherBound=${highest}"
     )
     if (result1 == result2) {
@@ -61,7 +63,7 @@ object Day21 extends AocApp {
     val (result2, _) = substituteRec("zmvq", actualYells, map1)
 //    val (result1, map1) = substituteRec("pppw", actualYells, Map.empty)
 //    val (result2, map2) = substituteRec("sjmn", actualYells, map1)
-//    println(s"In i=$number , result1=$result1, result2=$result2 , equal =${result1 == result2}")
+    debug(s"In i=$number , result1=$result1, result2=$result2 , equal =${result1 == result2}")
     (result1, result2)
   }
 
@@ -74,7 +76,7 @@ object Day21 extends AocApp {
     def substituteTwo(a: String, b: String): (BigDecimal, BigDecimal, Map[String, BigDecimal]) = {
       val (valueA, updatedMapA) = substituteRec(a, yellDefs, yellValues)
       val (valueB, updatedMapB) = substituteRec(b, yellDefs, updatedMapA)
-//      println(s"Substituted values for monkey: $a and monkey $b => resulting in values $valueA and $valueB")
+      debug(s"Substituted values for monkey: $a and monkey $b => resulting in values $valueA and $valueB")
       (valueA, valueB, updatedMapB)
     }
 

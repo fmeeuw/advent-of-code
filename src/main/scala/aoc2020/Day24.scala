@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day24 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   sealed trait Direction
   object Direction {
 

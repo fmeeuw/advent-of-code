@@ -6,6 +6,8 @@ import scala.io.Source
 
 object Day1 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val numbers = parseInput()
     val pairs = for {

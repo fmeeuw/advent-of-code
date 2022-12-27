@@ -4,6 +4,7 @@ import util.{AocApp, Point}
 
 object Day18 extends AocApp {
 
+  override val logOnDebug: Boolean = false
   case class State(cubes: Set[Point3], reachable: Set[Point3], unrachable: Set[Point3]) {
 
     def contains(point: Point3): Boolean = {
@@ -43,30 +44,24 @@ object Day18 extends AocApp {
 
   def part1 = {
     val points = parsePoints().toSet
-    println(points.mkString(","))
+    debug(points.mkString(","))
 
-    println(surfaceArea(Set(Point3(1, 1, 1), Point3(2, 1, 1))))
-    println(surfaceArea(points))
+    debug(surfaceArea(Set(Point3(1, 1, 1), Point3(2, 1, 1))))
+    info(surfaceArea(points))
   }
 
   def part2 = {
 //    val points = Set(Point3(1, 1, 1), Point3(2, 1, 1))
     val points = parsePoints().toSet
-    println(points.mkString(","))
+    debug(points.mkString(","))
 
     val reachablePoints = fillRec(List(Point3(0, 0, 0)), points, Set.empty)
-    println(totalSurfaceArea(points, reachablePoints))
+    info(totalSurfaceArea(points, reachablePoints))
   }
 
   def totalSurfaceArea(cubes: Set[Point3], reachablePoints: Set[Point3]): Int = {
     cubes.toList.map(point => adjacents(point).count(reachablePoints.contains)).sum
   }
-//  def totalSurfaceArea(cubes: Set[Point3], reachablePoints: Set[Point3]) = {
-//    cubes.toList.foldLeft(State(cubes, Set.empty, Set.empty) -> 0) { case ((state, total), cube) =>
-//      val (updatedState, reachableCount) = countReachableAdjacents(adjacents(cube), state, 0)
-//      updatedState -> (total + reachableCount)
-//    }
-//  }
 
   def countReachableAdjacents(adjacents: List[Point3], state: State, count: Int): (State, Int) = {
     adjacents match
@@ -100,7 +95,7 @@ object Day18 extends AocApp {
   }
 
   def reachableFromOrigin(point: Point3, state: State): (State, Boolean) = {
-    println(s"In reachableFromOrigin ${point} state ${state}")
+    debug(s"In reachableFromOrigin ${point} state ${state}")
     state.isReachableFromOrigin(point) match
       case Some(reachable) => state -> reachable
       case None if (!state.withinBounds(point)) =>

@@ -4,6 +4,8 @@ import util.{AocApp, Direction4, Grid, Point}
 import util.Direction4.*
 object Day17 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Rock(points: Set[Point]) {
     def moveTo(otherPoint: Point): Rock = {
       copy(points = points.map(_ + otherPoint))
@@ -36,16 +38,16 @@ object Day17 extends AocApp {
 
   def part1 = {
     val jetStreamPattern = parseJetStreamPattern()
-    println(jetStreamPattern.mkString(","))
+    debug(jetStreamPattern.mkString(","))
 
     val (endHeight, endState) = moveRockRec(0, 0, 1497, rocks, jetStreamPattern, 3, 3433, Set.empty, Map.empty)
 //    printPositions(endState, None)
-    println(endHeight)
+    info(endHeight)
   }
 
   def part2 = {
     val jetStreamPattern = parseJetStreamPattern()
-    println(jetStreamPattern.mkString(","))
+    debug(jetStreamPattern.mkString(","))
 //    val (endHeight, endSkyline) = moveRockRec(0, 0, 5000000, rocks, jetStreamPattern, 0, 0, Set.empty, Map.empty)
 
     // 1000000000000 rounds to simulate.
@@ -61,8 +63,8 @@ object Day17 extends AocApp {
     val (endHeight2, endSkyline2) = moveRockRec(0, 0, 1497, rocks, jetStreamPattern, 3, 3433, Set.empty, Map.empty)
 
     //    printPositions(endSkyline, None)
-    //    println(endHeight)
-    println(endHeight2)
+    //    debug(endHeight)
+    info(endHeight2)
   }
 
   def moveRockRec(
@@ -79,36 +81,36 @@ object Day17 extends AocApp {
     if (round == nrOfRounds) {
       (takenPositions.map(_.y).max + height + 1) -> takenPositions
     } else {
-      //      println(s"Round ${round} Moving rock ${rockIndex} and jetIndex ${jetIndex} at height=$height.")
-      //      println("****************************************************")
+      //      debug(s"Round ${round} Moving rock ${rockIndex} and jetIndex ${jetIndex} at height=$height.")
+      //      debug("****************************************************")
       //      printPositions(takenPositions, None)
-      //      println("****************************************************")
+      //      debug("****************************************************")
 
       val startingPosition = rockStartingPosition(takenPositions.map(_.y).maxOption)
       val rock = rocks(rockIndex).moveTo(startingPosition)
       val (landedRock, updatedJetIndex) = fallRockRec(jetStream, rock, jetTurn = true, jetIndex, takenPositions)
-      //      println(s"Rock landed at ${landedRock.points.mkString(",")}")
+      //      debug(s"Rock landed at ${landedRock.points.mkString(",")}")
       val (updatedHeight, updatedTakenPositions) = normalizeSkyLine(height, takenPositions ++ landedRock.points)
       val totalHeightNow: Long = updatedHeight + updatedTakenPositions.map(_.y).max + 1
       val existingHeightDiff = history.get((rockIndex, jetIndex))
 
       if ((rockIndex == 2 && jetIndex == 3433)) {
-        println("My favorite")
-        println(s"Now: round = ${round + 1} , totalHeightNow=${totalHeightNow}")
+        debug("My favorite")
+        debug(s"Now: round = ${round + 1} , totalHeightNow=${totalHeightNow}")
       }
 
       existingHeightDiff.foreach {
         case (existingHeight, Some((existingHeightDiff, count))) =>
           val newHeightDiff = totalHeightNow - existingHeight
           if (newHeightDiff == existingHeightDiff && count > 3 || rockIndex == 2 && jetIndex == 3433) {
-            println(
+            debug(
               s"Detected cycle with count $count in history for rock ${rockIndex} and jetIndex ${jetIndex} at totalHeightNow=$totalHeightNow."
             )
-            println(s"History: height:${existingHeight}  heightdiff: ${existingHeightDiff}")
-            println(s"Now: round = ${round + 1} HeightDiff = ${newHeightDiff} , totalHeightNow=${totalHeightNow}")
-            //          println("****************************************************")
+            debug(s"History: height:${existingHeight}  heightdiff: ${existingHeightDiff}")
+            debug(s"Now: round = ${round + 1} HeightDiff = ${newHeightDiff} , totalHeightNow=${totalHeightNow}")
+            //          debug("****************************************************")
             //          printPositions(takenPositions, None)
-            //          println("****************************************************")
+            //          debug("****************************************************")
           }
         case _ => ()
       }
@@ -173,10 +175,10 @@ object Day17 extends AocApp {
       jetIndex: Int,
       takenPositions: Set[Point]
   ): (Rock, Int) = {
-//    println(s"Falling Rock recursively jetIndex ${jetIndex} and jetTurn=$jetTurn")
-//    println("****************************************************")
+//    debug(s"Falling Rock recursively jetIndex ${jetIndex} and jetTurn=$jetTurn")
+//    debug("****************************************************")
 //    printPositions(takenPositions, Some(rock))
-//    println("****************************************************")
+//    debug("****************************************************")
 
     if (jetTurn) {
       val jetDirection = jetStream(jetIndex)
@@ -236,7 +238,7 @@ object Day17 extends AocApp {
         }
         .toString()
     }
-    lines.reverse.foreach(println)
+    lines.reverse.foreach(debug)
 
   }
 

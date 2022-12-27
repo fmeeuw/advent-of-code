@@ -8,21 +8,23 @@ import scala.collection.immutable
 
 object Day23 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val elves = parseInput()
-    println(elves)
-    val (round, movedElves) = doRoundRec(10, 1, elves, List(North, South, West, East))
+    debug(elves)
+    val (_, movedElves) = doRoundRec(10, 1, elves, List(North, South, West, East))
 
     printElves(movedElves)
     val result = calcScore(movedElves)
-    println(result)
+    info(result)
   }
 
   def part2 = {
     val elves = parseInput()
-    println(elves)
+    debug(elves)
     val (round, _) = doRoundRec(java.lang.Long.MAX_VALUE, 1, elves, List(North, South, West, East))
-    println(round)
+    info(round)
   }
 
   def calcScore(elves: List[Point]): Int = {
@@ -32,7 +34,7 @@ object Day23 extends AocApp {
     val minY = elves.map(_.y).min
 
     val rectangleSquares = (maxY - minY + 1) * (maxX - minX + 1)
-//    println(s"Rectangle = ($maxY - $minY + 1) * ($maxX - $minX + 1) = $rectangleSquares")
+    debug(s"Rectangle = ($maxY - $minY + 1) * ($maxX - $minX + 1) = $rectangleSquares")
     rectangleSquares - elves.size
   }
 
@@ -53,7 +55,7 @@ object Day23 extends AocApp {
       )
       .mkString("\n")
 
-    println(string)
+    debug(string)
   }
 
   @tailrec
@@ -66,8 +68,8 @@ object Day23 extends AocApp {
     if (currentRound > totalRounds) {
       currentRound - 1 -> elves
     } else {
-//      println(s"In doRound ${currentRound} of ${totalRounds}, directions: ${directionsToConsider.mkString(",")}")
-//      printElves(elves)
+      debug(s"In doRound ${currentRound} of ${totalRounds}, directions: ${directionsToConsider.mkString(",")}")
+      printElves(elves)
 
       val elvesSet = elves.toSet
 
@@ -86,12 +88,12 @@ object Day23 extends AocApp {
             case South => Option.when(allFree(elf.adjacents8(List(South, SouthEast, SouthWest))))(elf.move8(South))
             case East  => Option.when(allFree(elf.adjacents8(List(East, NorthEast, SouthEast))))(elf.move8(East))
           }
-//          println(s"all propositions for ${elf} = ${allPropositions}")
+          debug(s"all propositions for ${elf} = ${allPropositions}")
           elf -> allPropositions.headOption
         }
       }
 
-//      println(s"Propositions ${proposedNextMoves.mkString(",")}")
+      debug(s"Propositions ${proposedNextMoves.mkString(",")}")
 
       // second half, actually move
       val elvesThatClash: Set[Point] =
@@ -108,10 +110,10 @@ object Day23 extends AocApp {
       }
 
       if (filteredPropositions.forall(_._2.isEmpty)) {
-        println(s"No more moves @ round $currentRound.")
+        debug(s"No more moves @ round $currentRound.")
         currentRound -> elves
       } else {
-        //      println(s"Elves that would clash ${elvesThatClash.mkString(",")}")
+        //      debug(s"Elves that would clash ${elvesThatClash.mkString(",")}")
         val movedElves: List[Point] = filteredPropositions.map { case (elf, nextMove) =>
           nextMove.getOrElse(elf)
         }

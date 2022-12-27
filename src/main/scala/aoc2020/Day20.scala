@@ -6,6 +6,8 @@ import scala.annotation.tailrec
 
 object Day20 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   /** Tile 1409: ##..#.#.#. ##........ #.#...##.# #..#..#... .......##. ##......## .......... .........# .#..##....
     * #.##...##.
     */

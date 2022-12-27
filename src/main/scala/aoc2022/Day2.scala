@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day2 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   enum Shape:
     case Rock, Paper, Scissors
   enum Outcome:
@@ -12,12 +14,19 @@ object Day2 extends AocApp {
   case class Round1(opponent: Shape, player: Shape)
   case class Round2(opponent: Shape, player: Outcome)
 
-  def part1 = parseInput1.map(round => score(round.player, round.opponent)).sum
+  def part1 = {
+    val result = parseInput1.map(round => score(round.player, round.opponent)).sum
+    info(result)
+  }
 
-  def part2 = parseInput2.map { round =>
-    val playerShape = determineShape(round.opponent, round.player).get
-    score(playerShape, round.opponent)
-  }.sum
+  def part2 = {
+    val result = parseInput2.map { round =>
+      val playerShape = determineShape(round.opponent, round.player).get
+      score(playerShape, round.opponent)
+    }.sum
+
+    info(result)
+  }
 
   def parseInput1: List[Round1] = {
     readLines().collect {
@@ -82,6 +91,6 @@ object Day2 extends AocApp {
       case (Shape.Scissors, Shape.Scissors) => Outcome.Draw
   }
 
-  println(part1) // 9177
-  println(part2) // 12111
+  part1 // 9177
+  part2 // 12111
 }

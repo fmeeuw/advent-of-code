@@ -7,6 +7,8 @@ import scala.collection.mutable
 
 object Day20 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   class Node[A](val value: A, var previous: Option[Node[A]], var next: Option[Node[A]]) {
     override def toString: String = {
       value.toString
@@ -36,7 +38,7 @@ object Day20 extends AocApp {
     }
     def findNodeToMoveToRec(current: Node[A], steps: Int, size: Int): Node[A] = {
       val reducedSteps = steps % (size - 1)
-//      println(s"Iterating $current steps=$steps , current head=${head}, current tail=${tail}")
+      debug(s"Iterating $current steps=$steps , current head=${head}, current tail=${tail}")
       if (reducedSteps == 0) current
       else if (reducedSteps > 0) findNodeToMoveToRec(current.next.getOrElse(head), reducedSteps - 1, size)
       else findNodeToMoveToRec(current.previous.getOrElse(tail), reducedSteps + 1, size)
@@ -44,14 +46,14 @@ object Day20 extends AocApp {
 
     def iterate(current: Node[A], i: Int, size: Int): Node[A] = {
       val index = if (i < 0) ((size - 1 + i) % (size - 1)) else (i % (size - 1))
-      println(s"Iterating $current i=$i , current head=${head}, current tail=${tail}")
+      debug(s"Iterating $current i=$i , current head=${head}, current tail=${tail}")
       if (index == 0) current
       else iterate(current.next.getOrElse(head), index - 1, size)
     }
 
     def iterateReal(current: Node[A], i: Int, size: Int): Node[A] = {
       val index = if (i < 0) ((size + i) % (size)) else (i % (size))
-      //      println(s"Iterating $current i=$i , current head=${head}, current tail=${tail}")
+      debug(s"Iterating $current i=$i , current head=${head}, current tail=${tail}")
       if (index == 0) current
       else iterate(current.next.getOrElse(head), index - 1, size)
     }
@@ -128,51 +130,30 @@ object Day20 extends AocApp {
   def part1 = {
 
     val originalNumbers = parseNumbers()
-    println(originalNumbers.mkString(","))
+    debug(originalNumbers.mkString(","))
 
     val size = originalNumbers.size
     var list = LinkedList.from(originalNumbers)
-    println(list)
+    debug(list)
 
     for { i <- 0 until size } {
       var node: Node[(Int, Int)] = list.head.nodesReversed().find(_.value._2 == i).get
 //      var node = list.getByOriginalIdx(i).get
 //      val node = list.tail.nodes().find(_.value == originalNumbers(i)).get
-      println(s"i=$i , moving node $node")
+      debug(s"i=$i , moving node $node")
       list.move(node, node.value._1, size)
-      println(list)
+      debug(list)
     }
-    println(list)
-    println(list.head.nodesReversed().size)
+    debug(list)
+    debug(list.head.nodesReversed().size)
 
     var zeroth = list.head.nodesReversed().find(_.value._1 == 0).get
     var oneK = list.findNodeToMoveToRec(zeroth, 1000, size + 1)
     var twoK = list.findNodeToMoveToRec(zeroth, 2000, size + 1)
     var threeK = list.findNodeToMoveToRec(zeroth, 3000, size + 1)
-    println(s"Values, 1000=$oneK, 2000=$twoK, 3000=$threeK")
-    println(oneK.value._1 + twoK.value._1 + threeK.value._1)
-
-    // 4045 too high
-    // 3073 too high
-    // -15199 wrong
-    // 90 wrong
-    // 10619??
-    // // -3151 wrong
-    // 9610
-    // 4045 wrong
-    // 2827
+    debug(s"Values, 1000=$oneK, 2000=$twoK, 3000=$threeK")
+    info(oneK.value._1 + twoK.value._1 + threeK.value._1)
   }
-
-//  def part1Two = {
-//    val originalNumbers = parseNumbers()
-//    println(originalNumbers.mkString(","))
-//
-//    val size = originalNumbers.size
-//    val list = scala.collection.Dou
-//
-//    var list = LinkedList.from(originalNumbers)
-//
-//  }
 
   def parseNumbers(suffix: Option[String] = None): List[Int] = {
     readLines(suffix).map(_.toInt).toList

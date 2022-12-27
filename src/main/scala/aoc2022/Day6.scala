@@ -4,16 +4,18 @@ import util.AocApp
 
 object Day6 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val input: String = readLines().toList.head
 //    val input = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-    println(indexOffirstUniqueSequence(input, 4).get)
+    info(indexOffirstUniqueSequence(input, 4).get)
   }
 
   def part2 = {
     val input: String = readLines().toList.head
 //    val input = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-    println(indexOffirstUniqueSequence(input, 14).get)
+    info(indexOffirstUniqueSequence(input, 14).get)
   }
 
   private def indexOffirstUniqueSequence(input: String, n: Int) = input.sliding(n).zipWithIndex.collectFirst {

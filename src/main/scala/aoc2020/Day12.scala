@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day12 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Action(action: Char, amount: Int)
   case class Point(x: Int, y: Int)
 

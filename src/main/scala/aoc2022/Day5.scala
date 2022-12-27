@@ -7,6 +7,8 @@ import scala.collection.immutable.Queue
 
 object Day5 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Input(stacks: Stacks, moves: List[Move])
   case class Stacks(stacks: Vector[List[Char]])
   case class Move(amount: Int, from: Int, to: Int)
@@ -15,25 +17,25 @@ object Day5 extends AocApp {
     val input = parseInput
     val endState = input.moves.foldLeft(input.stacks) { (stacks, move) =>
       val nextState = doMove(stacks, move)
-//      println(s"Performing move ${move}")
-//      println("*" * 30)
-//      printStacks(nextState)
-//      println("*" * 30)
+      debug(s"Performing move ${move}")
+      debug("*" * 30)
+      printStacks(nextState)
+      debug("*" * 30)
       nextState
     }
-    println(endState.stacks.map(stack => stack.head).mkString)
+    info(endState.stacks.map(stack => stack.head).mkString)
   }
   def part2: Unit = {
     val input = parseInput
     val endState = input.moves.foldLeft(input.stacks) { (stacks, move) =>
       val nextState = doMove2(stacks, move)
-//      println(s"Performing move ${move}")
-//      println("*" * 30)
-//      printStacks(nextState)
-//      println("*" * 30)
+      debug(s"Performing move ${move}")
+      debug("*" * 30)
+      printStacks(nextState)
+      debug("*" * 30)
       nextState
     }
-    println(endState.stacks.map(stack => stack.head).mkString)
+    info(endState.stacks.map(stack => stack.head).mkString)
   }
 
   def doMove(stacks: Stacks, move: Move) = {
@@ -92,8 +94,8 @@ object Day5 extends AocApp {
       stacks.stacks.map(stack => stack.lift(i).map(char => s"[$char]").getOrElse("   ")).mkString(" ")
     }
 
-    result.foreach(println)
-    println(bottomLine)
+    result.foreach(debug)
+    debug(bottomLine)
   }
 
   part1 // SVFDLGLWV

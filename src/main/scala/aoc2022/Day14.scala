@@ -5,6 +5,8 @@ import util.{AocApp, Grid, Point}
 import scala.annotation.tailrec
 object Day14 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Line(from: Point, to: Point) {
     def allPoints: List[Point] = {
       if (to.x > from.x) {
@@ -20,13 +22,13 @@ object Day14 extends AocApp {
   }
   def part1 = {
     val lines = parseLines
-    println(lines)
+    debug(lines)
 
     val points = lines.flatMap(line => List(line.from, line.to)).distinct
-    println(points)
+    debug(points)
     val maxScanY = points.map(_.y).max
     val maxScanX = (points.map(_.x).max)
-    println(s"maxX=$maxScanX, maxY=$maxScanY")
+    debug(s"maxX=$maxScanX, maxY=$maxScanY")
 
     val emptyCells = (0 to maxScanY).map { y =>
       (0 to maxScanX).map { x =>
@@ -46,13 +48,13 @@ object Day14 extends AocApp {
 
   def part2 = {
     val lines = parseLines
-    println(lines)
+    debug(lines)
 
     val points = lines.flatMap(line => List(line.from, line.to)).distinct
-    println(points)
+    debug(points)
     val maxScanY = points.map(_.y).max
     val maxScanX = (points.map(_.x).max)
-    println(s"maxX=$maxScanX, maxY=$maxScanY")
+    debug(s"maxX=$maxScanX, maxY=$maxScanY")
 
     val emptyCells = (0 to maxScanY + 1).map { y =>
       (0 to maxScanX * 2).map { x =>
@@ -74,9 +76,9 @@ object Day14 extends AocApp {
     val sandDestination = pourSandUntilRest(grid, sandStartingPoint)
 
     if (units % 100 == 0 || sandDestination == sandStartingPoint) {
-      println(s"Unit $units **************")
-      println(grid)
-      println("***************************")
+      debug(s"Unit $units **************")
+      debug(grid)
+      debug("***************************")
     }
 
     val updatedGrid = grid.updated(sandDestination, '+')
@@ -112,6 +114,6 @@ object Day14 extends AocApp {
     }
   }
 
-//  part1
+  part1
   part2
 }

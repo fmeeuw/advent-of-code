@@ -6,6 +6,8 @@ import scala.reflect.ClassTag
 
 object Day23 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   class ListNode[A](
       var value: A,
       var previous: ListNode[A],

@@ -5,13 +5,15 @@ import util.AocApp
 
 object Day4 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Pair(a: Range, b: Range)
 
-  def part1 = println(parseInput.count { case Pair(a, b) =>
+  def part1 = info(parseInput.count { case Pair(a, b) =>
     fullyContainedWithin(a, b)
   })
 
-  def part2 = println(parseInput.count { case Pair(a, b) =>
+  def part2 = info(parseInput.count { case Pair(a, b) =>
     overlaps(a, b)
   })
 

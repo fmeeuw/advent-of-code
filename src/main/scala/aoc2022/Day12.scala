@@ -7,6 +7,8 @@ import scala.collection.mutable
 
 object Day12 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val elevationLevels: Vector[Vector[Char]] = readLines().map(_.toVector).toVector
     val grid = Grid(elevationLevels)
@@ -14,8 +16,8 @@ object Day12 extends AocApp {
     val endPosition = grid.points.find(point => grid.cell(point) == 'E').get
     val steps = nextMoveRecursive(grid, 0, _ == endPosition, Map(0 -> List(startPosition)), Set.empty, uphill = true)
 
-//    println(grid.toString)
-    println(steps)
+    debug(grid.toString)
+    info(steps)
   }
 
   def part2 = {
@@ -26,7 +28,7 @@ object Day12 extends AocApp {
 
     // Move from end to start
     val steps = nextMoveRecursive(grid, 0, isStartPosition, Map(0 -> List(endPosition)), Set.empty, uphill = false)
-    println(steps)
+    info(steps)
   }
 
   def nextMoveRecursive(
@@ -46,9 +48,9 @@ object Day12 extends AocApp {
             .adjacent4Points(head)
             .filter(to => isReachable(grid, head, to, uphill))
             .filterNot(visited.contains)
-//          println(
-//            s"Currently evaluating point ${head}, visitable adjacents are: ${adjacents.mkString}, todo = ${todo.size} and visited = ${visited.size}"
-//          )
+          debug(
+            s"Currently evaluating point ${head}, visitable adjacents are: ${adjacents.mkString}, todo = ${todo.size} and visited = ${visited.size}"
+          )
           val updatedTodo = todo
             .updated(currentSteps, next)
             .updated(currentSteps + 1, (todo.getOrElse(currentSteps + 1, List.empty[Point]) ++ adjacents).distinct)

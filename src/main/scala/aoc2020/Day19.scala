@@ -7,6 +7,8 @@ import scala.annotation.tailrec
 
 object Day19 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Input(rules: Map[Int, Rule], messages: List[String])
 
   case class Rule(id: Int, matcher: RuleMatcher)

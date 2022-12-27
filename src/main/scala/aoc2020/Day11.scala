@@ -4,6 +4,7 @@ import util.AocApp
 
 object Day11 extends AocApp {
 
+  override val logOnDebug: Boolean = false
   case class Point(x: Int, y: Int) {
     def +(other: Point): Point = {
       Point(

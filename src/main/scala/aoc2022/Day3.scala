@@ -7,21 +7,29 @@ import scala.io.Source
 
 object Day3 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Rucksack(part1: String, part2: String)
 
-  def part1 = parseInput.map { sack =>
-    val intersectionChars = sack.part1.toList.toSet.intersect(sack.part2.toList.toSet)
-    priority(intersectionChars.toList.head)
-  }.sum
+  def part1 = {
+    val result = parseInput.map { sack =>
+      val intersectionChars = sack.part1.toList.toSet.intersect(sack.part2.toList.toSet)
+      priority(intersectionChars.toList.head)
+    }.sum
+    info(result)
+  }
 
-  def part2 = parseInput
-    .map(sack => (sack.part1 ++ sack.part2).toSet)
-    .grouped(3)
-    .map { group =>
-      val badge = group.reduceLeft((a, b) => a.intersect(b)).head
-      priority(badge)
-    }
-    .sum
+  def part2 = {
+    val result = parseInput
+      .map(sack => (sack.part1 ++ sack.part2).toSet)
+      .grouped(3)
+      .map { group =>
+        val badge = group.reduceLeft((a, b) => a.intersect(b)).head
+        priority(badge)
+      }
+      .sum
+    info(result)
+  }
 
   def priority(char: Char) = {
     if (char.isUpper) {
@@ -37,6 +45,6 @@ object Day3 extends AocApp {
     }.toList
   }
 
-  println(part1) // 7848
-  println(part2) // 2616
+  part1 // 7848
+  part2 // 2616
 }

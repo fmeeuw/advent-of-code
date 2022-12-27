@@ -4,11 +4,13 @@ import util.{AocApp, CharHelper}
 
 object Day25 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val snafus = parseInput
     val sum = snafus.map(snafuToLong).sum
     val snafuSum = longToSnafu(sum)
-    println(snafuSum)
+    info(snafuSum)
   }
 
   /** 1=-0-2 174
@@ -21,15 +23,15 @@ object Day25 extends AocApp {
     val positiveNumber = java.lang.Long.parseLong(positives, 5).toLong
     val negativeNumber = java.lang.Long.parseLong(negatives, 5).toLong
     val result = positiveNumber - negativeNumber
-//    println(
-//      s" Snafu number $snafu converts to number ($positives => $positiveNumber) - ${negatives} => ${negativeNumber} = $result"
-//    )
+    debug(
+      s" Snafu number $snafu converts to number ($positives => $positiveNumber) - ${negatives} => ${negativeNumber} = $result"
+    )
     result
   }
 
   def longToSnafu(number: Long): String = {
     val radix5String: String = java.lang.Long.toString(number, 5)
-//    println(s"In longToSnafu, ${number} => in radix5 = ${radix5String}")
+    debug(s"In longToSnafu, ${number} => in radix5 = ${radix5String}")
     val (endString, endRemember) = radix5String.foldRight((List.empty[Char], 0)) { case (char, (agg, remember)) =>
       val actualNumber = CharHelper.charToInt(char) + remember
       if (actualNumber >= 0 && actualNumber < 3) {
@@ -47,7 +49,7 @@ object Day25 extends AocApp {
     val snafu: Seq[Char] = if (endRemember == 1) { '1' :: endString }
     else endString
 
-//    println(s"longToSnafu conversion: ${number} converted to snafu $snafu       ( $endString with $endRemember )")
+    debug(s"longToSnafu conversion: ${number} converted to snafu $snafu       ( $endString with $endRemember )")
     snafu.mkString
   }
   def parseInput: List[String] = readLines().toList

@@ -7,6 +7,8 @@ import scala.io.Source
 
 object Day5 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Ticket(rowNr: Int, colNr: Int) {
     lazy val seatId: Int = rowNr * 8 + colNr
   }

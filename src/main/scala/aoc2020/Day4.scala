@@ -7,6 +7,8 @@ import scala.util.Try
 
 object Day4 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val requiredKeys = Set("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
     val matches = parseInput.count(passport => requiredKeys.subsetOf(passport.map(_._1).toSet))

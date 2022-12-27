@@ -1,10 +1,11 @@
 package aoc2022
 
-import aoc2022.Day23.readLines
 import util.{AocApp, Point}
 import util.Direction4
 
 object Day24 extends AocApp {
+
+  override val logOnDebug: Boolean = false
 
   case class Blizzards(north: Set[Point], east: Set[Point], south: Set[Point], west: Set[Point]) {
     def contains(point: Point) =
@@ -44,67 +45,63 @@ object Day24 extends AocApp {
       }
       copy(blizzards = Blizzards(nextNorths, nextEasts, nextSouths, nextWests))
     }
+
+    override def toString: String = {
+      Range
+        .inclusive(height - 1, 0, -1)
+        .toVector
+        .map(y =>
+          y + "\t" + (0 until width).toVector
+            .map(x => if (isWall(Point(x, y))) '#' else if (isBlizzard(Point(x, y))) '*' else '.')
+            .map(_.toString)
+            .mkString
+        )
+        .mkString("\n")
+    }
   }
   def part1 = {
     val state = parseInput()
-//    println("Initial state")
-//    printState(state)
+    debug("Initial state")
+    debug(state)
     val (_, minutes) = move(state.end, List(MoveState(state.start, state, 0)))
     println(minutes)
   }
 
   def part2 = {
     val state = parseInput()
-//    println("Initial state")
-//    printState(state)
+    debug("Initial state")
+    debug(state)
     val (endState1, minutes1) = move(state.end, List(MoveState(state.start, state, 0)))
-    println(s"First reach end in $minutes1")
+    debug(s"First reach end in $minutes1")
     val (endState2, minutes2) = move(state.start, List(MoveState(state.end, endState1, minutes1)))
-    println(s"Secondly reach start in $minutes2")
+    debug(s"Secondly reach start in $minutes2")
     val (_, minutes3) = move(state.end, List(MoveState(state.start, endState2, minutes2)))
-    println(s"Thirdly reach end again in $minutes3")
+    debug(s"Thirdly reach end again in $minutes3")
+    info(minutes3)
   }
 
   case class MoveState(pos: Point, state: State, minutes: Int)
   def move(target: Point, todo: List[MoveState]): (State, Int) = {
     todo match
       case ::(MoveState(pos, state, minutes), next) =>
-//        println(s"In move @ minute $minutes and pos $pos.")
-//        printState(state)
-//        println(s"*" * 30)
+        debug(s"In move @ minute $minutes and pos $pos.")
+        debug(state)
+        debug(s"*" * 30)
         if (pos == target) {
           state -> minutes
         } else {
           val nextMoves =
             (pos.adjacents4() :+ pos).filter(state.next.isFree).map(pos => MoveState(pos, state.next, minutes + 1))
-//          println(s"Possible moves = ${(pos.adjacents4() :+ pos).filter(state.next.isFree)}.")
-//          println(s"Next moves = ${(nextMoves
-//              .filterNot(next.contains) ++ next).sortBy(_.minutes).map(state => state.pos -> state.minutes)} ")
+          debug(s"Possible moves = ${(pos.adjacents4() :+ pos).filter(state.next.isFree)}.")
+          debug(s"Next moves = ${(nextMoves
+              .filterNot(next.contains) ++ next).sortBy(_.minutes).map(state => state.pos -> state.minutes)} ")
           move(target, (nextMoves.filterNot(next.contains) ++ next).sortBy(_.minutes))
         }
       case Nil => throw new IllegalStateException("Arg")
   }
 
-  def printState(state: State): Unit = {
-    val string = Range
-      .inclusive(state.height - 1, 0, -1)
-      .toVector
-      .map(y =>
-        y + "\t" + (0 until state.width).toVector
-          .map(x => if (state.isWall(Point(x, y))) '#' else if (state.isBlizzard(Point(x, y))) '*' else '.')
-          .map(_.toString)
-          .mkString
-      )
-      .mkString("\n")
-
-    println(string)
-  }
-
   def parseInput(suffix: Option[String] = None): State = {
     val linesWithIndex = readLines(suffix).toList.reverse.zipWithIndex
-
-    println(linesWithIndex)
-
     val blizzardsList: List[(Direction4, Point)] = linesWithIndex.flatMap { case (row, y) =>
       row.zipWithIndex.flatMap { case (char, x) =>
         if (char == '>') Some(Direction4.East -> Point(x, y))
@@ -121,8 +118,8 @@ object Day24 extends AocApp {
     val start = linesWithIndex.last match
       case (line, y) => Point(line.zipWithIndex.find(_._1 == '.').get._2, y)
 
-    println(start)
-    println(end)
+    debug(start)
+    debug(end)
 
     val blizzards = Blizzards(
       north = blizzardsList.collect { case (dir, point) if dir == Direction4.North => point }.toSet,

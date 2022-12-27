@@ -6,6 +6,8 @@ import scala.annotation.tailrec
 
 object Day10 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val input = parseInput.sorted
     val sortedAdapters = 0 +: input :+ (input.max + 3)

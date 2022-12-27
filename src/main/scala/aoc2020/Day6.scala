@@ -6,6 +6,8 @@ import scala.io.Source
 
 object Day6 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val groups = parseInput
     val answers: Seq[Set[Char]] = groups.map { group =>

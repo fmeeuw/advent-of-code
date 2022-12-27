@@ -7,6 +7,8 @@ import scala.util.matching.Regex
 
 object Day14 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class ProgramState(mask: BitMask, assignments: Map[Long, Long])
 
   sealed trait Op

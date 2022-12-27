@@ -6,6 +6,8 @@ import scala.util.{Success, Try}
 
 object Day13 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Input(departureTimestamp: Long, busIds: List[Int])
 
   def part1 = {

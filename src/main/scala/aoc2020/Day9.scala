@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day9 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   def part1 = {
     val input = parseInput
     val result = input

@@ -6,8 +6,16 @@ import scala.io.Source
 
 object Day1 extends AocApp {
 
-  def part1 = parseInput.map(_.sum).max
-  def part2 = parseInput.map(_.sum).sorted.takeRight(3).sum
+  override val logOnDebug: Boolean = false
+
+  def part1 = {
+    val result = parseInput.map(_.sum).max
+    info(result)
+  }
+  def part2 = {
+    val result = parseInput.map(_.sum).sorted.takeRight(3).sum
+    info(result)
+  }
 
   def parseInput: Seq[List[Int]] = {
     readLines()

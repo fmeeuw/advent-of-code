@@ -6,6 +6,8 @@ import scala.io.Source
 
 object Day3 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class World(base: Vector[Vector[Boolean]]) {
     def isOpen(x: Int, y: Int) = {
       base(y)(x % base(y).length)

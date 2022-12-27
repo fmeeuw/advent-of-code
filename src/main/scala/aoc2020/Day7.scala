@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day7 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   case class Contains(color: String, amount: Int)
   case class Rule(color: String, containsBags: Vector[Contains])
 

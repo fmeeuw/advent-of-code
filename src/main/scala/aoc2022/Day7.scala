@@ -4,6 +4,8 @@ import util.AocApp
 
 object Day7 extends AocApp {
 
+  override val logOnDebug: Boolean = false
+
   sealed trait Command
   case class ChangeDirectoryCommand(path: String) extends Command
   case class ListCommand(output: List[ListOutput]) extends Command
@@ -14,7 +16,6 @@ object Day7 extends AocApp {
 
   def part1 = {
     val input = readLines().toList
-//    val input = readLines(Some("test")).toList
     val commands = parseCommands(input)
     val (last, directSizes) = commands.foldLeft("" -> Map.empty[String, Long]) { case ((current, map), command) =>
       command match
@@ -33,13 +34,12 @@ object Day7 extends AocApp {
     val allDirs = directSizes.keySet
     val recursiveSizes = allDirs.map(dir => dir -> allDirs.filter(_.startsWith(dir)).map(directSizes.apply).sum).toMap
 
-    println(recursiveSizes.filter { case (_, size) => size <= 100000 }.values.sum)
+    info(recursiveSizes.filter { case (_, size) => size <= 100000 }.values.sum)
   }
 
   def part2 = {
 
     val input = readLines().toList
-//    val input = readLines(Some("test")).toList
     val commands = parseCommands(input)
     val (last, directSizes) = commands.foldLeft("" -> Map.empty[String, Long]) { case ((current, map), command) =>
       command match
@@ -68,7 +68,7 @@ object Day7 extends AocApp {
       if (size > minimumToDelete && size < min) size else min
     )
 
-    println(closestMin)
+    info(closestMin)
   }
 
   private def parseCommands(inputLines: List[String]): List[Command] = {

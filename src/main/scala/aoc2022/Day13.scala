@@ -4,6 +4,7 @@ import util.AocApp
 
 object Day13 extends AocApp {
 
+  override val logOnDebug: Boolean = false
   sealed trait Data {
     def toString: String
   }
@@ -19,15 +20,15 @@ object Day13 extends AocApp {
   def part1 = {
     val pairs: List[Pair] = parsePairs
     val pairsWithIndices: List[(Pair, Int)] = pairs.zipWithIndex.map { case (pair, index) => (pair, index + 1) }
-//    pairsWithIndices.foreach { case (pair, index) =>
-//      println(s"Pair $index:")
-//      println(s"\tCompare:  ${pair.left} vs ${pair.right}")
-//      println(s"\tPair in right order: ${compareRec(pair.left, pair.right)}")
-//    }
+    pairsWithIndices.foreach { case (pair, index) =>
+      debug(s"Pair $index:")
+      debug(s"\tCompare:  ${pair.left} vs ${pair.right}")
+      debug(s"\tPair in right order: ${compareRec(pair.left, pair.right)}")
+    }
     val sumOfIndices = pairsWithIndices.collect {
       case (pair, index) if compareRec(pair.left, pair.right).contains(true) => index
     }.sum
-    println(sumOfIndices)
+    info(sumOfIndices)
   }
 
   def part2 = {
@@ -37,7 +38,7 @@ object Day13 extends AocApp {
     val lines = dividerPacket1 :: dividerPacket2 :: input
     val sortedLines = lines.sortWith((left, right) => compareRec(left, right).getOrElse(true))
 
-    println(sortedLines.zipWithIndex.collect {
+    info(sortedLines.zipWithIndex.collect {
       case (data, idx) if data == dividerPacket1 || data == dividerPacket2 => idx + 1
     }.product)
   }
@@ -46,19 +47,19 @@ object Day13 extends AocApp {
     left -> right match
       case (In(l), In(r)) =>
         val result = if (l < r) Some(true) else if (l > r) Some(false) else None
-//        println(s"Comparing ${l} with $r , result = $result")
+        debug(s"Comparing ${l} with $r , result = $result")
         result
       case (Lis(l), Lis(r)) =>
         val result = compareListRec(l, r)
-//        println(s"Comaring $l with $r, result = $result")
+        debug(s"Comparing $l with $r, result = $result")
         result
       case (Lis(l), In(r)) =>
         val result = compareListRec(l, List(In(r)))
-//        println(s"Comparing $l with $r, result = $result")
+        debug(s"Comparing $l with $r, result = $result")
         result
       case (In(l), Lis(r)) =>
         val result = compareListRec(List(In(l)), r)
-//        println(s"Comparing $l with $r, result = $result")
+        debug(s"Comparing $l with $r, result = $result")
         result
   }
 
