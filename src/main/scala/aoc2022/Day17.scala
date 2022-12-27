@@ -238,7 +238,7 @@ object Day17 extends AocApp {
         }
         .toString()
     }
-    lines.reverse.foreach(debug)
+    lines.reverse.foreach(s => debug(s))
 
   }
 

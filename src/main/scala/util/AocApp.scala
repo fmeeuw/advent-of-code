@@ -11,10 +11,10 @@ trait AocApp extends App with InputHelper {
     getClass.getSimpleName.drop(3).dropRight(1).toInt
   }
 
-  def debug(line: Any): Unit = {
+  def debug(line: => Any): Unit = {
     if (logOnDebug) println(line)
   }
-  def info(line: Any): Unit = {
+  def info(line: => Any): Unit = {
     println(line)
   }
 

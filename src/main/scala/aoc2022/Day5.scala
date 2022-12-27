@@ -94,7 +94,7 @@ object Day5 extends AocApp {
       stacks.stacks.map(stack => stack.lift(i).map(char => s"[$char]").getOrElse("   ")).mkString(" ")
     }
 
-    result.foreach(debug)
+    result.foreach(s => debug(s))
     debug(bottomLine)
   }
 
