@@ -3,7 +3,10 @@ package util
 import util.Direction4.*
 import util.Direction8.{NorthEast, NorthWest, SouthEast, SouthWest}
 case class Point(x: Int, y: Int) {
+  def -(other: Point) = copy(x - other.x, y - other.y)
   def +(other: Point) = copy(x + other.x, y + other.y)
+
+  def *(value: Int) = copy(x * value, y * value)
   def north(steps: Int = 1): Point = copy(y = y + steps)
   def east(steps: Int = 1): Point = copy(x = x + steps)
   def south(steps: Int = 1): Point = copy(y = y - steps)
@@ -11,6 +14,13 @@ case class Point(x: Int, y: Int) {
 
   def adjacents4(directions: Seq[Direction4] = Direction4.values): List[Point] = directions.map(move4(_)).toList
   def adjacents8(directions: Seq[Direction8] = Direction8.values): List[Point] = directions.map(move8(_)).toList
+
+  /** Angle in radians. */
+  def rotate(centerX: Double, centerY: Double, angle: Double) = {
+    val newX = centerX + (x - centerX) * Math.cos(angle) - (y - centerY) * Math.sin(angle);
+    val newY = centerY + (x - centerX) * Math.sin(angle) + (y - centerY) * Math.cos(angle)
+    Point(Math.round(newX).toInt, Math.round(newY).toInt)
+  }
 
   def move4(direction: Direction4, steps: Int = 1) = direction match
     case North => north(steps)

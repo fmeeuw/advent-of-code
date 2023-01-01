@@ -4,7 +4,7 @@ import util.Direction4.East
 
 enum Direction4 {
 
-  def rotateClockwise = {
+  def rotateClockwise: Direction4 = {
     this match
       case North => East
       case East  => South
@@ -12,7 +12,7 @@ enum Direction4 {
       case West  => North
   }
 
-  def rotateCounterClockwise = {
+  def rotateCounterClockwise: Direction4 = {
     this match
       case North => West
       case East  => North

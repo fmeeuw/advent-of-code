@@ -3,7 +3,7 @@ package util
 case class Grid[A](cells: Vector[Vector[A]]) {
 
   override def toString: String = {
-    cells.zipWithIndex
+    cells.zipWithIndex.reverse //for now reversed
       .map { case (row, y) =>
         y + "\t" + row.map(_.toString).mkString
       }

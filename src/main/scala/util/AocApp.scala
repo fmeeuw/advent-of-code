@@ -8,7 +8,7 @@ trait AocApp extends App with InputHelper {
     getClass.getPackageName.drop(3).toInt
   }
   def day: Int = {
-    getClass.getSimpleName.drop(3).dropRight(1).toInt
+    getClass.getSimpleName.drop(3).takeWhile(_.isDigit).toInt
   }
 
   def debug(line: => Any): Unit = {
